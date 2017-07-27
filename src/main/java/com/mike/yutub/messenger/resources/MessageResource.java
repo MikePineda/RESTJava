@@ -1,8 +1,10 @@
 package com.mike.yutub.messenger.resources;
 
 import com.mike.yutub.messenger.model.Message;
+import com.mike.yutub.messenger.service.EmpleadoService;
 import com.mike.yutub.messenger.service.MessageService;
 import java.util.List;
+import javax.ejb.EJB;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -18,8 +20,10 @@ import javax.ws.rs.core.MediaType;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class MessageResource {
-
+    
     MessageService messageService = new MessageService();
+    @EJB
+    EmpleadoService empleadoService;
 
     	@GET
 	public List<Message> getMessages() {
