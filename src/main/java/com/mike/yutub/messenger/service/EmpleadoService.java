@@ -20,11 +20,24 @@ public class EmpleadoService {
     public List<Empleado> getAllEmps() {
         try {
             query = controlesEm.createNamedQuery("Empleado.findAll");
-            query.setMaxResults(15);
+            //query.setMaxResults(15);
             return query.getResultList();
         } catch (java.lang.NullPointerException e) {
 
             return null;
         }
+    }
+    
+    public Empleado getEmpById(String id){
+     return controlesEm.find(Empleado.class, id);
+
+    }
+
+    public void removeEmp(String id) {
+       Empleado emp = controlesEm.find(Empleado.class, id);
+       controlesEm.remove(emp);
+       controlesEm.flush();
+       System.out.println("Borrado");
+
     }
 }
