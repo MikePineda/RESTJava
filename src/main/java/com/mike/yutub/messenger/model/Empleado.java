@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -150,6 +152,19 @@ public class Empleado implements Serializable {
     @Column(name = "ESTATUS_XXADCJ")
     private String estatusXxadcj;
 
+        @PrePersist
+    public void prePersist() {
+        this.setFechaUltimaActualizacion(new Date());
+        this.setFechaCreacionMdm(new Date());
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.setFechaUltimaActualizacion(new Date());
+    }
+    
+    
+    
     public Empleado() {
     }
 

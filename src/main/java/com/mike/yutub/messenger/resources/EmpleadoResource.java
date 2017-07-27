@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -26,25 +27,31 @@ import javax.ws.rs.core.MediaType;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class EmpleadoResource {
+
     @EJB
     EmpleadoService empleadoService;
+
+    @GET
+    public List<Empleado> getEmps() {
+        System.out.println("pro");
+        System.out.println(empleadoService.getAllEmps());
+        return empleadoService.getAllEmps();
+    }
+
+    @GET
+    @Path("/{empleadoID}")
+    public Empleado getMessage(@PathParam("empleadoID") String id) {
+        return empleadoService.getEmpById(id);
+    }
+
+    @DELETE
+    @Path("/{empleadoID}")
+    public void deleteMessage(@PathParam("empleadoID") String id) {
+        empleadoService.removeEmp(id);
+    }
     
-    	@GET
-	public List<Empleado> getEmps() {
-            System.out.println("pro");
-            System.out.println(empleadoService.getAllEmps());
-		return empleadoService.getAllEmps();
-	}
-        
-        @GET
-	@Path("/{empleadoID}")
-	public Empleado getMessage(@PathParam("empleadoID") String id) {
-		return empleadoService.getEmpById(id);
-	}
-        
-        @DELETE
-	@Path("/{empleadoID}")
-	public void deleteMessage(@PathParam("empleadoID") String id) {
-		empleadoService.removeEmp(id);
-	}
+    @POST
+    public Empleado addEmp(Empleado empleado){
+       return empleadoService.addEmp(empleado);
+    }
 }

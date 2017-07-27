@@ -27,17 +27,23 @@ public class EmpleadoService {
             return null;
         }
     }
-    
-    public Empleado getEmpById(String id){
-     return controlesEm.find(Empleado.class, id);
+
+    public Empleado getEmpById(String id) {
+        return controlesEm.find(Empleado.class, id);
 
     }
 
     public void removeEmp(String id) {
-       Empleado emp = controlesEm.find(Empleado.class, id);
-       controlesEm.remove(emp);
-       controlesEm.flush();
-       System.out.println("Borrado");
+        Empleado emp = controlesEm.find(Empleado.class, id);
+        controlesEm.remove(emp);
+        controlesEm.flush();
+        System.out.println("Borrado");
 
+    }
+
+    public Empleado addEmp(Empleado empleado) {
+        controlesEm.persist(empleado);
+        controlesEm.flush();
+        return empleado;
     }
 }
