@@ -14,6 +14,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -49,9 +50,16 @@ public class EmpleadoResource {
     public void deleteMessage(@PathParam("empleadoID") String id) {
         empleadoService.removeEmp(id);
     }
-    
+
     @POST
-    public Empleado addEmp(Empleado empleado){
-       return empleadoService.addEmp(empleado);
+    public Empleado addEmp(Empleado empleado) {
+        return empleadoService.addEmp(empleado);
+    }
+
+    @PUT
+    @Path("/{empleadoID}")
+    public Empleado editEmp(@PathParam("empleadoID") String id,Empleado empleado) {
+        empleado.setIdEmpleado(id);
+        return empleadoService.editEmp(empleado);
     }
 }

@@ -46,4 +46,10 @@ public class EmpleadoService {
         controlesEm.flush();
         return empleado;
     }
+
+    public Empleado editEmp(Empleado empleado) {
+        controlesEm.merge(empleado);
+        controlesEm.flush();
+        return empleado;
+    }
 }
