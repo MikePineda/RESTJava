@@ -18,6 +18,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -33,9 +34,19 @@ public class EmpleadoResource {
     EmpleadoService empleadoService;
 
     @GET
-    public List<Empleado> getEmps() {
-        System.out.println("pro");
-        System.out.println(empleadoService.getAllEmps());
+    public List<Empleado> getEmps(@QueryParam("crPlaza") String crPlaza,
+            @QueryParam("crTienda") String crTienda,
+            @QueryParam("start") int start,
+            @QueryParam("size") int size) {
+        
+        if(start > 0 && size > 0 ) return empleadoService.getEmpsPaginated(start,size);
+        
+        if (crPlaza != null) {
+            return empleadoService.getAllEmpsForCrPlaza(crPlaza);
+        }
+        if (crTienda != null) {
+            return empleadoService.getAllEmpsForCrTienda(crTienda);
+        }
         return empleadoService.getAllEmps();
     }
 
@@ -58,7 +69,7 @@ public class EmpleadoResource {
 
     @PUT
     @Path("/{empleadoID}")
-    public Empleado editEmp(@PathParam("empleadoID") String id,Empleado empleado) {
+    public Empleado editEmp(@PathParam("empleadoID") String id, Empleado empleado) {
         empleado.setIdEmpleado(id);
         return empleadoService.editEmp(empleado);
     }
