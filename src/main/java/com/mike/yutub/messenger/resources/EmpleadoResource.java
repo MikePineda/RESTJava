@@ -7,9 +7,11 @@ package com.mike.yutub.messenger.resources;
 
 import com.mike.yutub.messenger.model.Empleado;
 import com.mike.yutub.messenger.model.Message;
+import com.mike.yutub.messenger.resources.beans.EmpleadoFilterBean;
 import com.mike.yutub.messenger.service.EmpleadoService;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -34,18 +36,15 @@ public class EmpleadoResource {
     EmpleadoService empleadoService;
 
     @GET
-    public List<Empleado> getEmps(@QueryParam("crPlaza") String crPlaza,
-            @QueryParam("crTienda") String crTienda,
-            @QueryParam("start") int start,
-            @QueryParam("size") int size) {
+    public List<Empleado> getEmps(@BeanParam EmpleadoFilterBean filterBean) {
         
-        if(start > 0 && size > 0 ) return empleadoService.getEmpsPaginated(start,size);
+        if(filterBean.getStart() > 0 && filterBean.getSize() > 0 ) return empleadoService.getEmpsPaginated(filterBean.getStart(), filterBean.getSize());
         
-        if (crPlaza != null) {
-            return empleadoService.getAllEmpsForCrPlaza(crPlaza);
+        if (filterBean.getCrPlaza() != null) {
+            return empleadoService.getAllEmpsForCrPlaza(filterBean.getCrPlaza());
         }
-        if (crTienda != null) {
-            return empleadoService.getAllEmpsForCrTienda(crTienda);
+        if (filterBean.getCrTienda()!= null) {
+            return empleadoService.getAllEmpsForCrTienda(filterBean.getCrTienda());
         }
         return empleadoService.getAllEmps();
     }
