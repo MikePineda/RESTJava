@@ -76,6 +76,11 @@ public class EmpleadoResource {
         return empleadoService.getEmpsByBirthDate(date);
 
     }
+    
+    @Path("/{empleadoID}/SubResource")
+    public SubResource getpro(){
+        return new SubResource();
+    }
 
 //DELETE METHODS
     @DELETE
