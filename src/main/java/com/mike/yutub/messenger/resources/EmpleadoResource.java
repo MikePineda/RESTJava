@@ -9,6 +9,8 @@ import com.mike.yutub.messenger.model.Empleado;
 import com.mike.yutub.messenger.model.Message;
 import com.mike.yutub.messenger.resources.beans.EmpleadoFilterBean;
 import com.mike.yutub.messenger.service.EmpleadoService;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.BeanParam;
@@ -35,15 +37,18 @@ public class EmpleadoResource {
     @EJB
     EmpleadoService empleadoService;
 
+    // GET METHODS
     @GET
     public List<Empleado> getEmps(@BeanParam EmpleadoFilterBean filterBean) {
-        
-        if(filterBean.getStart() > 0 && filterBean.getSize() > 0 ) return empleadoService.getEmpsPaginated(filterBean.getStart(), filterBean.getSize());
-        
+
+        if (filterBean.getStart() > 0 && filterBean.getSize() > 0) {
+            return empleadoService.getEmpsPaginated(filterBean.getStart(), filterBean.getSize());
+        }
+
         if (filterBean.getCrPlaza() != null) {
             return empleadoService.getAllEmpsForCrPlaza(filterBean.getCrPlaza());
         }
-        if (filterBean.getCrTienda()!= null) {
+        if (filterBean.getCrTienda() != null) {
             return empleadoService.getAllEmpsForCrTienda(filterBean.getCrTienda());
         }
         return empleadoService.getAllEmps();
@@ -55,16 +60,36 @@ public class EmpleadoResource {
         return empleadoService.getEmpById(id);
     }
 
+    @GET
+    @Path("{year}/{month}/{day}")
+    public List<Empleado> searchEmpsByBirthDate(
+            @PathParam("year") int year,
+            @PathParam("month") int month,
+            @PathParam("day") int day) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month - 1);
+        calendar.set(Calendar.DATE, day);
+        Date date = calendar.getTime();
+        System.out.println(date);
+        return empleadoService.getEmpsByBirthDate(date);
+
+    }
+
+//DELETE METHODS
     @DELETE
     @Path("/{empleadoID}")
     public void deleteMessage(@PathParam("empleadoID") String id) {
         empleadoService.removeEmp(id);
     }
+//POST METHODS
 
     @POST
     public Empleado addEmp(Empleado empleado) {
         return empleadoService.addEmp(empleado);
     }
+//PUT METHODS
 
     @PUT
     @Path("/{empleadoID}")
