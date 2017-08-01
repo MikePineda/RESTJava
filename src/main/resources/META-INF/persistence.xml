@@ -3,6 +3,7 @@
   <persistence-unit name="CONTROLES" transaction-type="JTA">
     <jta-data-source>jdbc/Controles</jta-data-source>
     <class>com.mike.yutub.messenger.model.Empleado</class>
+    <class>com.mike.yutub.messenger.model.TablaBorrame</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>

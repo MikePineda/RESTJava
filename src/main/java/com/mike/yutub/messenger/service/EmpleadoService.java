@@ -24,7 +24,10 @@ public class EmpleadoService {
     }
 
     public Empleado getEmpById(String id) {
-        return controlesEm.find(Empleado.class, id);
+        Empleado pro = controlesEm.find(Empleado.class, id);
+       // System.out.println(pro.getPhones().toString());
+        int x=0;
+        return pro;
 
     }
 

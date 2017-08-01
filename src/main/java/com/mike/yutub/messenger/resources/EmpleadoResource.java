@@ -57,7 +57,14 @@ public class EmpleadoResource {
     @GET
     @Path("/{empleadoID}")
     public Empleado getMessage(@PathParam("empleadoID") String id) {
-        return empleadoService.getEmpById(id);
+        Empleado pro = empleadoService.getEmpById(id);
+        try {
+            return pro;
+
+        } catch ( java.lang.StackOverflowError ja) {
+            int x=0;
+return null;
+        }
     }
 
     @GET
@@ -76,9 +83,9 @@ public class EmpleadoResource {
         return empleadoService.getEmpsByBirthDate(date);
 
     }
-    
+
     @Path("/{empleadoID}/SubResource")
-    public SubResource getpro(){
+    public SubResource getpro() {
         return new SubResource();
     }
 

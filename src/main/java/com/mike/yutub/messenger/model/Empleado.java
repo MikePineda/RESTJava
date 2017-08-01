@@ -1,19 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mike.yutub.messenger.model;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -22,6 +19,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,8 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Empleado.findAll", query = "SELECT e FROM Empleado e")
     , @NamedQuery(name = "Empleado.findByIdEmpleado", query = "SELECT e FROM Empleado e WHERE e.idEmpleado = :idEmpleado")
     , @NamedQuery(name = "Empleado.findByNombre", query = "SELECT e FROM Empleado e WHERE e.nombre = :nombre")
-   // , @NamedQuery(name = "Empleado.findByApPaterno", query = "SELECT e FROM Empleado e WHERE e.apMaterno = :apPaterno")
-   // , @NamedQuery(name = "Empleado.findByApMaterno", query = "SELECT e FROM Empleado e WHERE e.apMaterno = :apMaterno")
+    // , @NamedQuery(name = "Empleado.findByApPaterno", query = "SELECT e FROM Empleado e WHERE e.apMaterno = :apPaterno")
+    // , @NamedQuery(name = "Empleado.findByApMaterno", query = "SELECT e FROM Empleado e WHERE e.apMaterno = :apMaterno")
     , @NamedQuery(name = "Empleado.findByIdEstado", query = "SELECT e FROM Empleado e WHERE e.idEstado = :idEstado")
     , @NamedQuery(name = "Empleado.findByIdFuncion", query = "SELECT e FROM Empleado e WHERE e.idFuncion = :idFuncion")
     , @NamedQuery(name = "Empleado.findByFuncion", query = "SELECT e FROM Empleado e WHERE e.funcion = :funcion")
@@ -152,7 +150,10 @@ public class Empleado implements Serializable {
     @Column(name = "ESTATUS_XXADCJ")
     private String estatusXxadcj;
 
-        @PrePersist
+    @OneToMany(mappedBy = "owner")
+    private List<TablaBorrame> phones;
+
+    @PrePersist
     public void prePersist() {
         this.setFechaUltimaActualizacion(new Date());
         this.setFechaCreacionMdm(new Date());
@@ -162,9 +163,7 @@ public class Empleado implements Serializable {
     public void preUpdate() {
         this.setFechaUltimaActualizacion(new Date());
     }
-    
-    
-    
+
     public Empleado() {
     }
 
@@ -177,6 +176,16 @@ public class Empleado implements Serializable {
         this.idMdm = idMdm;
     }
 
+    public List getPhones() {
+        return phones;
+    }
+
+    public void setPhones(List phones) {
+        this.phones = phones;
+    }
+
+    
+    
     public String getIdEmpleado() {
         return idEmpleado;
     }
@@ -425,5 +434,5 @@ public class Empleado implements Serializable {
     public String toString() {
         return "com.mike.yutub.messenger.model.Empleado[ idEmpleado=" + idEmpleado + " ]";
     }
-    
+
 }
